@@ -64,6 +64,10 @@ export default function App() {
   function handelCloseMovie() {
     setselectedId(null);
   }
+  function handelAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+    setselectedId(null);
+  }
   useEffect(
     function () {
       async function fetchMovies() {
@@ -122,6 +126,7 @@ export default function App() {
                 <MovieDetail
                   selectedId={selectedId}
                   onCloseMovie={handelCloseMovie}
+                  onAddWatched={handelAddWatched}
                 />
               ) : (
                 <>
@@ -243,7 +248,7 @@ function Movie({ movie, onSelectMovie }) {
     </li>
   );
 }
-function MovieDetail({ selectedId, onCloseMovie }) {
+function MovieDetail({ selectedId, onCloseMovie, onAddWatched }) {
   const [movie, setmovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -258,7 +263,17 @@ function MovieDetail({ selectedId, onCloseMovie }) {
     Director: director,
     Genre: genre,
   } = movie;
-  console.log(title, year);
+  function handelADD() {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating),
+      runtime: Number(runtime.split(" ").at(0)),
+    };
+    onAddWatched(newWatchedMovie);
+  }
 
   useEffect(
     function () {
@@ -301,14 +316,13 @@ function MovieDetail({ selectedId, onCloseMovie }) {
           <section>
             <div className="rating">
               <StarRating
-  maxRating={10}
-  size={24}
-  onSetRating={(rating) => {
-    // handle user rating update here, e.g., console log or update state
-    console.log("User rated:", rating);
-    // you may want to save rating in state or watched list
-  }}
-/>
+                maxRating={10}
+                size={24}
+                onSetRating={(rating) => {}}
+              />
+              <button className="btn-add" onClick={handelADD}>
+                Add to List
+              </button>
             </div>
             <p>
               <em>{plot}</em>
@@ -360,8 +374,8 @@ function WatchedMovieList({ watched }) {
 function WatchedMovie({ movie }) {
   return (
     <li>
-      <img src={movie.Poster} alt={`${movie.Title} poster`} />
-      <h3>{movie.Title}</h3>
+      <img src={movie.poster} alt={`${movie.title} poster`} />
+      <h3>{movie.title}</h3>
       <div>
         <p>
           <span>⭐️</span>
