@@ -300,7 +300,15 @@ function MovieDetail({ selectedId, onCloseMovie }) {
           </header>
           <section>
             <div className="rating">
-              <StarRating maxRating={10} size={24} />
+              <StarRating
+  maxRating={10}
+  size={24}
+  onSetRating={(rating) => {
+    // handle user rating update here, e.g., console log or update state
+    console.log("User rated:", rating);
+    // you may want to save rating in state or watched list
+  }}
+/>
             </div>
             <p>
               <em>{plot}</em>

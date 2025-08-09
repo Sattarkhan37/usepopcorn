@@ -21,7 +21,7 @@ export default function StarRating({
   const [tempRating, setTempRating] = useState(0);
   function handleRating(rating) {
     setRating(rating);
-    onSetRating(rating)
+    onSetRating(rating);
   }
   const textStyle = {
     lineHeight: "1",
@@ -52,7 +52,7 @@ export default function StarRating({
     </div>
   );
 }
-function Star({ onRate, full, onHoverIn, onhoverout, color, size }) {
+function Star({ onRate, full, onHoverIn, onHoverOut, color, size }) {
   const starStyle = {
     width: `${size}px`,
     height: `${size}px`,
@@ -65,7 +65,7 @@ function Star({ onRate, full, onHoverIn, onhoverout, color, size }) {
       style={starStyle}
       onClick={onRate}
       onMouseEnter={onHoverIn}
-      onMouseLeave={onhoverout}
+      onMouseLeave={onHoverOut}
     >
       {full ? (
         <svg
